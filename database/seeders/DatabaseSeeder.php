@@ -44,6 +44,10 @@ class DatabaseSeeder extends Seeder
                 ])->save();
             }
         }
+
+        if (app()->environment(['local', 'testing']) || filter_var(env('SEED_DEMO_CATALOG', false), FILTER_VALIDATE_BOOL)) {
+            $this->call(DemoCatalogSeeder::class);
+        }
     }
 
     private function isPlaceholder(?array $content): bool

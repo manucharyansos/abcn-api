@@ -32,6 +32,7 @@ Set the MySQL connection and first administrator in `.env`:
 ADMIN_NAME="ABCN Administrator"
 ADMIN_EMAIL="admin@example.com"
 ADMIN_PASSWORD="use-a-long-unique-password"
+SEED_DEMO_CATALOG=true
 FRONTEND_URL=http://localhost:5173
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -50,6 +51,12 @@ php artisan migrate --seed
 php artisan storage:link
 php artisan serve
 ```
+
+With `SEED_DEMO_CATALOG=true`, the seeder adds an idempotent sample catalog with
+three root categories, five subcategories and eight clearly labelled demo
+products. Their slugs and SKUs use the `demo-` / `ABCN-DEMO-` prefixes, so they
+can be identified and replaced before launch. Set the option to `false` in a
+production environment.
 
 ## Main endpoints
 

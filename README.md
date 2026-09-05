@@ -47,6 +47,7 @@ Run the migrations, seed the administrator and start the API:
 
 ```bat
 php artisan migrate --seed
+php artisan storage:link
 php artisan serve
 ```
 
@@ -60,6 +61,7 @@ php artisan serve
 - `POST /api/v1/admin/login`
 - `GET /api/v1/admin/dashboard`
 - Admin CRUD endpoints for pages, categories and products
+- Admin media endpoints for JPG, PNG, WebP and PDF uploads
 
 ## Validation
 

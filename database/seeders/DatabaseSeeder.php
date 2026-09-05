@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Page;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,18 +30,100 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        foreach (['home', 'about', 'solutions', 'products', 'contact'] as $slug) {
-            Page::query()->firstOrCreate(
-                ['slug' => $slug],
-                [
+        foreach ($this->pages() as $slug => $content) {
+            $page = Page::query()->firstOrNew(['slug' => $slug]);
+
+            if (! $page->exists || $this->isPlaceholder($page->content)) {
+                $page->fill([
                     'status' => 'published',
-                    'content' => [
-                        'hy' => ['title' => $slug],
-                        'en' => ['title' => ucfirst($slug)],
+                    'content' => $content,
+                    'meta' => [
+                        'hy' => ['title' => $content['hy']['title'], 'description' => $content['hy']['lead']],
+                        'en' => ['title' => $content['en']['title'], 'description' => $content['en']['lead']],
                     ],
-                    'meta' => [],
-                ],
-            );
+                ])->save();
+            }
         }
+    }
+
+    private function isPlaceholder(?array $content): bool
+    {
+        return count($content['hy'] ?? []) <= 1 && count($content['en'] ?? []) <= 1;
+    }
+
+    private function pages(): array
+    {
+        return [
+            'home' => [
+                'hy' => [
+                    'eyebrow' => 'ԻՆԺԵՆԵՐԱԿԱՆ ԵՎ ԷՆԵՐԳԵՏԻԿ ԼՈՒԾՈՒՄՆԵՐ',
+                    'title' => 'Հուսալի կապ՝ կարևոր համակարգերի համար։',
+                    'lead' => 'ABCN-ը ինժեներական մոտեցմամբ միավորում է էլեկտրական ենթակառուցվածքները, արդյունաբերական համակարգերն ու դրանք կապող տեխնոլոգիաները։',
+                    'body' => 'Յուրաքանչյուր աշխատանք կառուցում ենք նախագծի իրական պայմանների շուրջ՝ կիրառություն, անվտանգություն, համատեղելիություն և երկարաժամկետ շահագործում։',
+                ],
+                'en' => [
+                    'eyebrow' => 'ENGINEERING & ENERGY SOLUTIONS',
+                    'title' => 'Reliable connections for systems that matter.',
+                    'lead' => 'ABCN brings an engineering mindset to electrical infrastructure, industrial systems and the technologies that connect them.',
+                    'body' => 'We structure every engagement around the real conditions of the project: application, safety, compatibility and long-term operation.',
+                ],
+            ],
+            'about' => [
+                'hy' => [
+                    'eyebrow' => 'ABCN-Ի ՄԱՍԻՆ',
+                    'title' => 'Ինժեներական հստակություն։ Պատասխանատու կապեր։',
+                    'lead' => 'ABCN-ը Հայաստանում գործող ընկերություն է, որը կենտրոնանում է էլեկտրական տեխնոլոգիաների, ենթակառուցվածքային պահանջների և նախագծերի գործնական իրականացման կապի վրա։',
+                    'body' => 'Մեր դերն է տեխնիկական բաղադրիչները միավորել մեկ հստակ, համապատասխան և հուսալի համակարգում։',
+                ],
+                'en' => [
+                    'eyebrow' => 'ABOUT ABCN',
+                    'title' => 'Engineering clarity. Responsible connections.',
+                    'lead' => 'ABCN is an Armenia-based company focused on the connection between electrical technologies, infrastructure requirements and practical project execution.',
+                    'body' => 'Our role is to connect technical components into one clear, appropriate and dependable system.',
+                ],
+            ],
+            'solutions' => [
+                'hy' => [
+                    'eyebrow' => 'ԼՈՒԾՈՒՄՆԵՐ',
+                    'title' => 'Սկսում ենք խնդրից, ոչ թե ապրանքների ցանկից։',
+                    'lead' => 'Լուծումների բաժինը նախագծված է իրական կարիքը համապատասխան ինժեներական ուղղության, ապրանքների և փաստաթղթերի հետ կապելու համար։',
+                    'body' => 'Յուրաքանչյուր ուղղություն կարող է ներառել կիրառման սցենարներ, համակարգային սխեմաներ, համատեղելի ապրանքներ և տեխնիկական փաստաթղթեր։',
+                ],
+                'en' => [
+                    'eyebrow' => 'SOLUTIONS',
+                    'title' => 'Start from the challenge, not from a product list.',
+                    'lead' => 'The solution section connects a real project need with the relevant engineering direction, products and documentation.',
+                    'body' => 'Each direction can include application scenarios, system diagrams, compatible products and technical documents.',
+                ],
+            ],
+            'products' => [
+                'hy' => [
+                    'eyebrow' => 'ԱՊՐԱՆՔՆԵՐ',
+                    'title' => 'Տեխնիկական կատալոգ՝ հիմնավորված ընտրության համար։',
+                    'lead' => 'Կատալոգը նախատեսված է կատեգորիաների, բնութագրերի, սերտիֆիկատների, ձեռնարկների և գնային առաջարկի հարցումների համար։',
+                    'body' => 'Ապրանքներն այստեղ հրապարակվում են ադմինկայից՝ հաստատված տեխնիկական տվյալներով։',
+                ],
+                'en' => [
+                    'eyebrow' => 'PRODUCTS',
+                    'title' => 'A technical catalog designed for informed selection.',
+                    'lead' => 'The catalog supports categories, specifications, certificates, manuals and quote requests.',
+                    'body' => 'Products are published here from the administration panel with verified technical data.',
+                ],
+            ],
+            'contact' => [
+                'hy' => [
+                    'eyebrow' => 'ԿԱՊ',
+                    'title' => 'Միասին հստակեցնենք ճիշտ հաջորդ քայլը։',
+                    'lead' => 'Ուղարկեք ձեր հարցի կամ նախագծի կարճ նկարագրությունը։ Հարցումը կհայտնվի ABCN-ի ադմինկայում։',
+                    'body' => 'Կարող եք նաև կապվել մեզ հետ հեռախոսով կամ էլ․ փոստով։',
+                ],
+                'en' => [
+                    'eyebrow' => 'CONTACT',
+                    'title' => 'Let’s define the right next step.',
+                    'lead' => 'Send a short description of your question or project. The inquiry will appear in the ABCN administration panel.',
+                    'body' => 'You can also contact us by phone or email.',
+                ],
+            ],
+        ];
     }
 }

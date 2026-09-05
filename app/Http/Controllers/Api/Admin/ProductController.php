@@ -10,9 +10,30 @@ use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(Product::query()->with('category:id,slug')->latest()->paginate(40));
+        $validated = $request->validate([
+            'status' => ['nullable', 'in:draft,published,archived'],
+            'category' => ['nullable', 'integer', 'exists:product_categories,id'],
+            'search' => ['nullable', 'string', 'max:120'],
+        ]);
+
+        return response()->json(
+            Product::query()
+                ->with('category:id,slug,translations')
+                ->when($validated['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
+                ->when($validated['category'] ?? null, fn ($query, $category) => $query->where('product_category_id', $category))
+                ->when($validated['search'] ?? null, function ($query, $search) {
+                    $query->where(function ($nested) use ($search) {
+                        $nested->where('slug', 'like', "%{$search}%")
+                            ->orWhere('sku', 'like', "%{$search}%")
+                            ->orWhere('translations', 'like', "%{$search}%");
+                    });
+                })
+                ->latest()
+                ->paginate(40)
+                ->withQueryString()
+        );
     }
 
     public function store(Request $request): JsonResponse
@@ -52,7 +73,9 @@ class ProductController extends Controller
             'sort_order' => ['sometimes', 'integer', 'min:0'],
             'translations' => ['required', 'array'],
             'translations.hy.name' => ['required', 'string', 'max:220'],
+            'translations.hy.description' => ['nullable', 'string', 'max:5000'],
             'translations.en.name' => ['required', 'string', 'max:220'],
+            'translations.en.description' => ['nullable', 'string', 'max:5000'],
             'specifications' => ['nullable', 'array'],
             'images' => ['nullable', 'array'],
             'documents' => ['nullable', 'array'],

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\AuthController;
 use App\Http\Controllers\Api\Admin\ContactRequestController as AdminContactRequestController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\MediaController;
 use App\Http\Controllers\Api\Admin\PageController;
 use App\Http\Controllers\Api\Admin\ProductCategoryController;
 use App\Http\Controllers\Api\Admin\ProductController;
@@ -26,6 +27,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/dashboard', DashboardController::class);
         Route::get('/contact-requests', [AdminContactRequestController::class, 'index']);
         Route::patch('/contact-requests/{contactRequest}', [AdminContactRequestController::class, 'update']);
+        Route::get('/media', [MediaController::class, 'index']);
+        Route::post('/media', [MediaController::class, 'store']);
+        Route::delete('/media/{media}', [MediaController::class, 'destroy']);
         Route::apiResource('pages', PageController::class);
         Route::apiResource('product-categories', ProductCategoryController::class)
             ->parameters(['product-categories' => 'productCategory']);

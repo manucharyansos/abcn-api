@@ -9,9 +9,28 @@ use Illuminate\Http\Request;
 
 class ContactRequestController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(ContactRequest::query()->latest()->paginate(30));
+        $validated = $request->validate([
+            'status' => ['nullable', 'in:new,in_progress,completed,archived'],
+            'search' => ['nullable', 'string', 'max:120'],
+        ]);
+
+        $requests = ContactRequest::query()
+            ->when($validated['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
+            ->when($validated['search'] ?? null, function ($query, $search) {
+                $query->where(function ($nested) use ($search) {
+                    $nested->where('name', 'like', "%{$search}%")
+                        ->orWhere('company', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(30)
+            ->withQueryString();
+
+        return response()->json($requests);
     }
 
     public function update(Request $request, ContactRequest $contactRequest): JsonResponse

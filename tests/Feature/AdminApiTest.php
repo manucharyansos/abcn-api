@@ -101,4 +101,29 @@ class AdminApiTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.0.slug', 'test-breaker');
     }
+
+    public function test_a_product_cannot_have_more_than_four_images(): void
+    {
+        $token = 'valid-admin-token';
+        User::factory()->create([
+            'role' => 'admin',
+            'api_token' => hash('sha256', $token),
+        ]);
+
+        $this->withToken($token)->postJson('/api/v1/admin/products', [
+            'product_category_id' => null,
+            'slug' => 'gallery-limit-test',
+            'sku' => 'ABCN-GALLERY-TEST',
+            'status' => 'draft',
+            'featured' => false,
+            'translations' => [
+                'hy' => ['name' => 'Պատկերասրահի փորձարկում'],
+                'en' => ['name' => 'Gallery limit test'],
+            ],
+            'images' => array_map(
+                fn (int $index) => ['url' => "/images/test-{$index}.webp"],
+                range(1, 5),
+            ),
+        ])->assertUnprocessable()->assertJsonValidationErrors('images');
+    }
 }

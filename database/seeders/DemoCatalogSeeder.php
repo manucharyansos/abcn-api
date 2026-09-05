@@ -148,11 +148,12 @@ class DemoCatalogSeeder extends Seeder
             'Փորձնական խելացի եռաֆազ հաշվիչ',
             'Demo three-phase smart meter',
         );
-        $chargerImage = $this->image(
-            '/images/products/demo-ev-charger.webp',
-            'Փորձնական պատի լիցքավորման կայան',
-            'Demo wall-mounted EV charger',
-        );
+        $chargerImages = [
+            ['url' => '/images/products/demo-ev-charger.webp', 'alt' => ['hy' => 'Փորձնական պատի լիցքավորման կայան', 'en' => 'Demo wall-mounted EV charger']],
+            ['url' => '/images/products/demo-ev-charger-angle.webp', 'alt' => ['hy' => 'Լիցքավորման կայանի կողային տեսք', 'en' => 'Side view of the charging station']],
+            ['url' => '/images/products/demo-ev-charger-front.webp', 'alt' => ['hy' => 'Լիցքավորման կայանի դիմային տեսք', 'en' => 'Front view of the charging station']],
+            ['url' => '/images/products/demo-ev-charger-detail.webp', 'alt' => ['hy' => 'Լիցքավորման միակցիչի խոշորացված տեսք', 'en' => 'Close-up of the charging connector']],
+        ];
 
         return [
             [
@@ -312,7 +313,7 @@ class DemoCatalogSeeder extends Seeder
                     ['Հզորություն' => '7.4 / 11 / 22 kW', 'Միակցիչ' => 'Type 2', 'Պաշտպանության աստիճան' => 'IP54', 'Մուտքի տարբերակներ' => 'RFID / հավելված'],
                     ['Power' => '7.4 / 11 / 22 kW', 'Connector' => 'Type 2', 'Protection degree' => 'IP54', 'Access options' => 'RFID / mobile app'],
                 ),
-                'images' => $chargerImage,
+                'images' => $chargerImages,
                 'documents' => $this->documents(),
             ],
         ];

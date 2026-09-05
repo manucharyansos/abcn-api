@@ -77,7 +77,12 @@ class ProductController extends Controller
             'translations.en.name' => ['required', 'string', 'max:220'],
             'translations.en.description' => ['nullable', 'string', 'max:5000'],
             'specifications' => ['nullable', 'array'],
-            'images' => ['nullable', 'array'],
+            'images' => ['nullable', 'array', 'max:4'],
+            'images.*.url' => ['required', 'string', 'max:2048'],
+            'images.*.name' => ['nullable', 'string', 'max:255'],
+            'images.*.alt' => ['nullable', 'array'],
+            'images.*.alt.hy' => ['nullable', 'string', 'max:500'],
+            'images.*.alt.en' => ['nullable', 'string', 'max:500'],
             'documents' => ['nullable', 'array'],
         ]);
     }

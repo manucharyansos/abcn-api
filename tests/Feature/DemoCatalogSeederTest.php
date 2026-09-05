@@ -34,6 +34,7 @@ class DemoCatalogSeederTest extends TestCase
         $this->getJson('/api/v1/products/demo-ev-wallbox-22')
             ->assertOk()
             ->assertJsonPath('images.0.url', '/images/products/demo-ev-charger.webp')
+            ->assertJsonCount(4, 'images')
             ->assertJsonPath('category.slug', 'demo-ac-chargers');
     }
 }

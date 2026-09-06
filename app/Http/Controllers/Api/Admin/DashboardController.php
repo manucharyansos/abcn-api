@@ -21,7 +21,11 @@ class DashboardController extends Controller
                 'products' => Product::query()->where('status', 'published')->count(),
                 'media' => Media::query()->count(),
             ],
-            'requests' => ContactRequest::query()->latest()->limit(20)->get(),
+            'requests' => ContactRequest::query()
+                ->with('product:id,slug,sku,translations,images')
+                ->latest()
+                ->limit(20)
+                ->get(),
         ]);
     }
 }

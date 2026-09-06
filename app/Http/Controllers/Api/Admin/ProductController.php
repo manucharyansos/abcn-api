@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -20,7 +21,7 @@ class ProductController extends Controller
 
         return response()->json(
             Product::query()
-                ->with('category:id,slug,translations')
+                ->with(['category:id,slug,translations', 'filterAttributes'])
                 ->when($validated['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
                 ->when($validated['category'] ?? null, fn ($query, $category) => $query->where('product_category_id', $category))
                 ->when($validated['search'] ?? null, function ($query, $search) {
@@ -38,21 +39,38 @@ class ProductController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $product = Product::create($this->validated($request));
+        $validated = $this->validated($request);
+        $filterAttributes = $validated['filter_attributes'] ?? [];
+        unset($validated['filter_attributes']);
 
-        return response()->json($product, 201);
+        $product = DB::transaction(function () use ($validated, $filterAttributes) {
+            $product = Product::create($validated);
+            $product->filterAttributes()->createMany($filterAttributes);
+
+            return $product;
+        });
+
+        return response()->json($product->load(['category:id,slug,translations', 'filterAttributes']), 201);
     }
 
     public function show(Product $product): JsonResponse
     {
-        return response()->json($product->load('category:id,slug,translations'));
+        return response()->json($product->load(['category:id,slug,translations', 'filterAttributes']));
     }
 
     public function update(Request $request, Product $product): JsonResponse
     {
-        $product->update($this->validated($request, $product));
+        $validated = $this->validated($request, $product);
+        $filterAttributes = $validated['filter_attributes'] ?? [];
+        unset($validated['filter_attributes']);
 
-        return response()->json($product->fresh());
+        DB::transaction(function () use ($product, $validated, $filterAttributes) {
+            $product->update($validated);
+            $product->filterAttributes()->delete();
+            $product->filterAttributes()->createMany($filterAttributes);
+        });
+
+        return response()->json($product->fresh()->load(['category:id,slug,translations', 'filterAttributes']));
     }
 
     public function destroy(Product $product): JsonResponse
@@ -77,6 +95,16 @@ class ProductController extends Controller
             'translations.en.name' => ['required', 'string', 'max:220'],
             'translations.en.description' => ['nullable', 'string', 'max:5000'],
             'specifications' => ['nullable', 'array'],
+            'filter_attributes' => ['nullable', 'array', 'max:16'],
+            'filter_attributes.*.key' => ['required', 'alpha_dash', 'max:80', 'distinct:strict'],
+            'filter_attributes.*.option' => ['required', 'alpha_dash', 'max:120'],
+            'filter_attributes.*.label' => ['required', 'array'],
+            'filter_attributes.*.label.hy' => ['required', 'string', 'max:120'],
+            'filter_attributes.*.label.en' => ['required', 'string', 'max:120'],
+            'filter_attributes.*.value' => ['required', 'array'],
+            'filter_attributes.*.value.hy' => ['required', 'string', 'max:160'],
+            'filter_attributes.*.value.en' => ['required', 'string', 'max:160'],
+            'filter_attributes.*.sort_order' => ['sometimes', 'integer', 'min:0'],
             'images' => ['nullable', 'array', 'max:4'],
             'images.*.url' => ['required', 'string', 'max:2048'],
             'images.*.name' => ['nullable', 'string', 'max:255'],

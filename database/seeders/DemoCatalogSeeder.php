@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DemoCatalogSeeder extends Seeder
 {
@@ -40,10 +41,13 @@ class DemoCatalogSeeder extends Seeder
             $categorySlug = $productData['category'];
             unset($productData['category']);
 
-            Product::query()->updateOrCreate(
+            $product = Product::query()->updateOrCreate(
                 ['slug' => $productData['slug']],
                 [...$productData, 'product_category_id' => $categoryIds[$categorySlug]],
             );
+
+            $product->filterAttributes()->delete();
+            $product->filterAttributes()->createMany($this->filterAttributesFor($product->slug));
         }
     }
 
@@ -330,6 +334,60 @@ class DemoCatalogSeeder extends Seeder
     private function specifications(array $hy, array $en): array
     {
         return ['hy' => $hy, 'en' => $en];
+    }
+
+    private function filterAttributesFor(string $productSlug): array
+    {
+        return match ($productSlug) {
+            'demo-acb-4000' => $this->filters([
+                ['rated-current', 'Նոմինալ հոսանք', 'Rated current', 'մինչև 4000 A', 'up to 4000 A'],
+                ['poles', 'Բևեռներ', 'Poles', '3P / 4P', '3P / 4P'],
+            ]),
+            'demo-mccb-250' => $this->filters([
+                ['rated-current', 'Նոմինալ հոսանք', 'Rated current', '100-250 A', '100-250 A'],
+                ['poles', 'Բևեռներ', 'Poles', '3P / 4P', '3P / 4P'],
+            ]),
+            'demo-mcb-63' => $this->filters([
+                ['rated-current', 'Նոմինալ հոսանք', 'Rated current', '6-63 A', '6-63 A'],
+                ['poles', 'Բևեռներ', 'Poles', '1P-4P', '1P-4P'],
+            ]),
+            'demo-rccb-63' => $this->filters([
+                ['rated-current', 'Նոմինալ հոսանք', 'Rated current', '25-63 A', '25-63 A'],
+                ['poles', 'Բևեռներ', 'Poles', '2P / 4P', '2P / 4P'],
+            ]),
+            'demo-contactor-c95' => $this->filters([
+                ['operational-current', 'Աշխատանքային հոսանք', 'Operational current', '9-95 A', '9-95 A'],
+                ['utilization-category', 'Օգտագործման կատեգորիա', 'Utilization category', 'AC-3', 'AC-3'],
+            ]),
+            'demo-vfd-15' => $this->filters([
+                ['power', 'Հզորություն', 'Power', 'մինչև 15 kW', 'up to 15 kW'],
+                ['communication', 'Կապ', 'Communication', 'RS-485 / Modbus', 'RS-485 / Modbus'],
+            ]),
+            'demo-smart-meter-sm320' => $this->filters([
+                ['network', 'Ցանց', 'Network', 'եռաֆազ', 'three-phase'],
+                ['communication', 'Կապ', 'Communication', 'RS-485 / Modbus', 'RS-485 / Modbus'],
+            ]),
+            'demo-ev-wallbox-22' => $this->filters([
+                ['power', 'Հզորություն', 'Power', '7.4 / 11 / 22 kW', '7.4 / 11 / 22 kW'],
+                ['connector', 'Միակցիչ', 'Connector', 'Type 2', 'Type 2'],
+            ]),
+            default => [],
+        };
+    }
+
+    private function filters(array $definitions): array
+    {
+        return array_map(
+            fn (array $definition, int $index) => [
+                'key' => $definition[0],
+                'option' => Str::slug($definition[4]),
+                'label' => ['hy' => $definition[1], 'en' => $definition[2]],
+                'value' => ['hy' => $definition[3], 'en' => $definition[4]],
+                'sort_order' => $index,
+            ],
+            $definitions,
+            array_keys($definitions),
+        );
     }
 
     private function image(string $url, string $hyAlt, string $enAlt): array

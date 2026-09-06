@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ProductCategory;
 use Database\Seeders\DemoCatalogSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -17,6 +18,7 @@ class DemoCatalogSeederTest extends TestCase
 
         $this->assertDatabaseCount('product_categories', 8);
         $this->assertDatabaseCount('products', 8);
+        $this->assertDatabaseCount('product_filter_attributes', 16);
 
         $this->getJson('/api/v1/product-categories')
             ->assertOk()
@@ -41,5 +43,19 @@ class DemoCatalogSeederTest extends TestCase
             ->assertOk()
             ->assertJsonCount(1, 'related_products')
             ->assertJsonPath('related_products.0.slug', 'demo-mccb-250');
+
+        $lowVoltage = ProductCategory::query()->where('slug', 'demo-low-voltage')->firstOrFail();
+        $filtered = $this->getJson("/api/v1/products?category={$lowVoltage->id}&filters[poles]=3p-4p&locale=hy")
+            ->assertOk()
+            ->assertJsonPath('total', 2)
+            ->assertJsonPath('data.0.slug', 'demo-acb-4000')
+            ->assertJsonPath('data.1.slug', 'demo-mccb-250');
+
+        $this->assertContains('poles', collect($filtered->json('facets'))->pluck('key')->all());
+
+        $this->getJson('/api/v1/products?search=wallbox')
+            ->assertOk()
+            ->assertJsonPath('total', 1)
+            ->assertJsonPath('data.0.slug', 'demo-ev-wallbox-22');
     }
 }

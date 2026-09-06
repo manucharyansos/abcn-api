@@ -95,7 +95,19 @@ class AdminApiTest extends TestCase
                 'hy' => ['name' => 'Փորձնական անջատիչ'],
                 'en' => ['name' => 'Test breaker'],
             ],
-        ])->assertCreated();
+            'filter_attributes' => [[
+                'key' => 'rated-current',
+                'option' => '16-a',
+                'label' => ['hy' => 'Նոմինալ հոսանք', 'en' => 'Rated current'],
+                'value' => ['hy' => '16 A', 'en' => '16 A'],
+                'sort_order' => 0,
+            ]],
+        ])->assertCreated()->assertJsonPath('filter_attributes.0.key', 'rated-current');
+
+        $this->assertDatabaseHas('product_filter_attributes', [
+            'key' => 'rated-current',
+            'option' => '16-a',
+        ]);
 
         $this->getJson('/api/v1/products')
             ->assertOk()

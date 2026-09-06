@@ -42,12 +42,27 @@ class PublicContentController extends Controller
 
     public function product(string $slug): JsonResponse
     {
-        return response()->json(
-            Product::query()
-                ->where('slug', $slug)
+        $product = Product::query()
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->with('category:id,slug,translations')
+            ->firstOrFail();
+
+        $relatedProducts = $product->product_category_id
+            ? Product::query()
                 ->where('status', 'published')
+                ->where('product_category_id', $product->product_category_id)
+                ->whereKeyNot($product->id)
                 ->with('category:id,slug,translations')
-                ->firstOrFail()
-        );
+                ->orderByDesc('featured')
+                ->orderBy('sort_order')
+                ->limit(3)
+                ->get()
+            : collect();
+
+        return response()->json([
+            ...$product->toArray(),
+            'related_products' => $relatedProducts,
+        ]);
     }
 }

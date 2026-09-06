@@ -9,6 +9,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductFilterAttribute;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class PublicContentController extends Controller
@@ -135,6 +136,31 @@ class PublicContentController extends Controller
             ...$product->toArray(),
             'related_products' => $relatedProducts,
         ]);
+    }
+
+    public function compare(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'slugs' => ['required', 'array', 'min:2', 'max:4'],
+            'slugs.*' => [
+                'required',
+                'string',
+                'max:160',
+                'distinct:strict',
+                Rule::exists('products', 'slug')->where(fn ($query) => $query->where('status', 'published')),
+            ],
+        ]);
+        $order = array_flip($validated['slugs']);
+
+        $products = Product::query()
+            ->where('status', 'published')
+            ->whereIn('slug', $validated['slugs'])
+            ->with(['category:id,slug,translations', 'filterAttributes'])
+            ->get()
+            ->sortBy(fn (Product $product) => $order[$product->slug])
+            ->values();
+
+        return response()->json($products);
     }
 
     private function categoryBranchIds(int $rootId): array

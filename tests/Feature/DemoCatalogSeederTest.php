@@ -57,5 +57,15 @@ class DemoCatalogSeederTest extends TestCase
             ->assertOk()
             ->assertJsonPath('total', 1)
             ->assertJsonPath('data.0.slug', 'demo-ev-wallbox-22');
+
+        $this->getJson('/api/v1/products/compare?slugs[]=demo-mccb-250&slugs[]=demo-acb-4000')
+            ->assertOk()
+            ->assertJsonCount(2)
+            ->assertJsonPath('0.slug', 'demo-mccb-250')
+            ->assertJsonPath('1.slug', 'demo-acb-4000');
+
+        $this->getJson('/api/v1/products/compare?slugs[]=demo-acb-4000')
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('slugs');
     }
 }

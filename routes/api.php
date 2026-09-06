@@ -17,6 +17,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/pages/{slug}', [PublicContentController::class, 'page']);
     Route::get('/product-categories', [PublicContentController::class, 'categories']);
     Route::get('/products', [PublicContentController::class, 'products']);
+    Route::get('/products/compare', [PublicContentController::class, 'compare']);
     Route::get('/products/{slug}', [PublicContentController::class, 'product']);
     Route::post('/contact-requests', [ContactRequestController::class, 'store'])->middleware('throttle:contact');
 

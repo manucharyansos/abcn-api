@@ -14,7 +14,7 @@ class ProjectController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json(Project::query()->orderBy('sort_order')->latest('completed_at')->get());
+        return response()->json(Project::query()->orderByDesc('created_at')->orderByDesc('id')->get());
     }
 
     public function store(Request $request): JsonResponse

@@ -19,6 +19,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/health', fn () => ['status' => 'ok', 'service' => 'ABCN API']);
 
     Route::get('/homepage', [PublicContentController::class, 'homepage']);
+    Route::get('/site-content', [PublicContentController::class, 'siteContent']);
     Route::get('/pages/{slug}', [PublicContentController::class, 'page']);
     Route::get('/services', [PublicContentController::class, 'services']);
     Route::get('/services/{slug}', [PublicContentController::class, 'service']);

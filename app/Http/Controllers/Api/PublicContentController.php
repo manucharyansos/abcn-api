@@ -24,28 +24,31 @@ class PublicContentController extends Controller
             'services' => Service::query()
                 ->where('status', 'published')
                 ->where('show_on_homepage', true)
-                ->orderBy('sort_order')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->limit(6)
                 ->get(),
             'projects' => Project::query()
                 ->where('status', 'published')
                 ->where('show_on_homepage', true)
-                ->orderBy('sort_order')
-                ->orderByDesc('completed_at')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->limit(6)
                 ->get(),
             'products' => Product::query()
                 ->where('status', 'published')
                 ->where('show_on_homepage', true)
                 ->with('category:id,slug,translations')
-                ->orderBy('sort_order')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->limit(6)
                 ->get(),
             'news' => NewsArticle::query()
                 ->where('status', 'published')
                 ->where('show_on_homepage', true)
                 ->orderByDesc('published_at')
-                ->orderBy('sort_order')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->limit(6)
                 ->get(),
         ]);
@@ -83,7 +86,7 @@ class PublicContentController extends Controller
     public function services(): JsonResponse
     {
         return response()->json(
-            Service::query()->where('status', 'published')->orderBy('sort_order')->get()
+            Service::query()->where('status', 'published')->orderByDesc('created_at')->orderByDesc('id')->get()
         );
     }
 
@@ -99,8 +102,8 @@ class PublicContentController extends Controller
         return response()->json(
             Project::query()
                 ->where('status', 'published')
-                ->orderBy('sort_order')
-                ->orderByDesc('completed_at')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->get()
         );
     }
@@ -117,8 +120,8 @@ class PublicContentController extends Controller
         return response()->json(
             NewsArticle::query()
                 ->where('status', 'published')
-                ->orderByDesc('published_at')
-                ->orderBy('sort_order')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->get()
         );
     }
@@ -133,7 +136,7 @@ class PublicContentController extends Controller
     public function team(): JsonResponse
     {
         return response()->json(
-            TeamMember::query()->where('status', 'published')->orderBy('sort_order')->get()
+            TeamMember::query()->where('status', 'published')->orderByDesc('created_at')->orderByDesc('id')->get()
         );
     }
 
@@ -207,7 +210,8 @@ class PublicContentController extends Controller
 
         $paginated = $products
             ->with(['category:id,slug,translations', 'filterAttributes'])
-            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->paginate(24);
 
         return response()->json([
@@ -230,8 +234,8 @@ class PublicContentController extends Controller
                 ->where('product_category_id', $product->product_category_id)
                 ->whereKeyNot($product->id)
                 ->with(['category:id,slug,translations', 'filterAttributes'])
-                ->orderByDesc('featured')
-                ->orderBy('sort_order')
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->limit(3)
                 ->get()
             : collect();

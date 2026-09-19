@@ -15,7 +15,7 @@ class NewsArticleController extends Controller
     public function index(): JsonResponse
     {
         return response()->json(
-            NewsArticle::query()->orderByDesc('published_at')->orderBy('sort_order')->latest('updated_at')->get()
+            NewsArticle::query()->orderByDesc('created_at')->orderByDesc('id')->get()
         );
     }
 

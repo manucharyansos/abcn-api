@@ -43,7 +43,11 @@ class DemoCatalogSeeder extends Seeder
 
             $product = Product::query()->updateOrCreate(
                 ['slug' => $productData['slug']],
-                [...$productData, 'product_category_id' => $categoryIds[$categorySlug]],
+                [
+                    ...$productData,
+                    'show_on_homepage' => $productData['show_on_homepage'] ?? $productData['featured'] ?? false,
+                    'product_category_id' => $categoryIds[$categorySlug],
+                ],
             );
 
             $product->filterAttributes()->delete();

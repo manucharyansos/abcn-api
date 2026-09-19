@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Product extends Model
 {
     protected $fillable = [
-        'product_category_id', 'slug', 'sku', 'status', 'featured', 'sort_order',
+        'product_category_id', 'slug', 'sku', 'status', 'featured', 'show_on_homepage', 'sort_order',
         'translations', 'specifications', 'images', 'documents',
     ];
 
@@ -17,6 +17,7 @@ class Product extends Model
     {
         return [
             'featured' => 'boolean',
+            'show_on_homepage' => 'boolean',
             'translations' => 'array',
             'specifications' => 'array',
             'images' => 'array',

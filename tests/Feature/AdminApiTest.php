@@ -91,6 +91,7 @@ class AdminApiTest extends TestCase
             'sku' => 'ABCN-001',
             'status' => 'published',
             'featured' => true,
+            'show_on_homepage' => true,
             'translations' => [
                 'hy' => ['name' => 'Փորձնական անջատիչ'],
                 'en' => ['name' => 'Test breaker'],
@@ -102,7 +103,9 @@ class AdminApiTest extends TestCase
                 'value' => ['hy' => '16 A', 'en' => '16 A'],
                 'sort_order' => 0,
             ]],
-        ])->assertCreated()->assertJsonPath('filter_attributes.0.key', 'rated-current');
+        ])->assertCreated()
+            ->assertJsonPath('show_on_homepage', true)
+            ->assertJsonPath('filter_attributes.0.key', 'rated-current');
 
         $this->assertDatabaseHas('product_filter_attributes', [
             'key' => 'rated-current',

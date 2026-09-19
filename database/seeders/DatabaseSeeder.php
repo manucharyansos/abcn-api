@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Page;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -43,6 +44,10 @@ class DatabaseSeeder extends Seeder
                     ],
                 ])->save();
             }
+        }
+
+        foreach ($this->services() as $service) {
+            Service::query()->firstOrCreate(['slug' => $service['slug']], $service);
         }
 
         if (app()->environment(['local', 'testing']) || filter_var(env('SEED_DEMO_CATALOG', false), FILTER_VALIDATE_BOOL)) {
@@ -100,6 +105,48 @@ class DatabaseSeeder extends Seeder
                     'body' => 'Each direction is shaped around the application, operating environment and required result, with equipment and technical documents selected for the project.',
                 ],
             ],
+            'services' => [
+                'hy' => [
+                    'eyebrow' => 'ԾԱՌԱՅՈՒԹՅՈՒՆՆԵՐ',
+                    'title' => 'Ինժեներական ծառայություններ և համապատասխան ապրանքներ՝ մեկ վայրում։',
+                    'lead' => 'Ծանոթացեք ABCN-ի ծառայություններին, ընտրեք նախագծին համապատասխան ուղղությունը և դիտեք մեր տեխնիկական ապրանքների կատալոգը։',
+                    'body' => 'Յուրաքանչյուր լուծում ձևավորվում է կիրառության, շահագործման միջավայրի և ակնկալվող արդյունքի շուրջ։',
+                ],
+                'en' => [
+                    'eyebrow' => 'SERVICES',
+                    'title' => 'Engineering services and relevant products in one place.',
+                    'lead' => 'Explore ABCN services, choose the direction that fits your project and browse our technical product catalog.',
+                    'body' => 'Every solution is shaped around the application, operating environment and required result.',
+                ],
+            ],
+            'projects' => [
+                'hy' => [
+                    'eyebrow' => 'ՆԱԽԱԳԾԵՐ',
+                    'title' => 'Իրականացված աշխատանքներ և ինժեներական փորձ։',
+                    'lead' => 'Մեր նախագծերը ներկայացնում են խնդիրից մինչև գործնական և հուսալի լուծում անցած ճանապարհը։',
+                    'body' => 'Յուրաքանչյուր նախագիծ կարող եք հրապարակել և թարմացնել կառավարման վահանակից։',
+                ],
+                'en' => [
+                    'eyebrow' => 'PROJECTS',
+                    'title' => 'Delivered work and practical engineering experience.',
+                    'lead' => 'Our projects show the path from a real requirement to a dependable, implemented solution.',
+                    'body' => 'Every project can be published and updated from the administration panel.',
+                ],
+            ],
+            'news' => [
+                'hy' => [
+                    'eyebrow' => 'ՆՈՐՈՒԹՅՈՒՆՆԵՐ',
+                    'title' => 'ABCN-ի նորությունները և մասնագիտական թարմացումները։',
+                    'lead' => 'Հետևեք ընկերության նախագծերին, նոր գործընկերություններին, ապրանքներին և ոլորտային զարգացումներին։',
+                    'body' => 'Նորությունները հրապարակվում և կառավարվում են ABCN-ի կառավարման վահանակից։',
+                ],
+                'en' => [
+                    'eyebrow' => 'NEWS',
+                    'title' => 'ABCN news and professional updates.',
+                    'lead' => 'Follow company projects, new partnerships, products and industry developments.',
+                    'body' => 'News is published and managed from the ABCN administration panel.',
+                ],
+            ],
             'products' => [
                 'hy' => [
                     'eyebrow' => 'ԱՊՐԱՆՔՆԵՐ',
@@ -126,6 +173,84 @@ class DatabaseSeeder extends Seeder
                     'title' => 'Let’s define the right next step.',
                     'lead' => 'Send a short description of your question or project. Our team will review it and contact you to clarify the next step.',
                     'body' => 'You can also contact us by phone or email.',
+                ],
+            ],
+        ];
+    }
+
+    private function services(): array
+    {
+        return [
+            [
+                'slug' => 'power-distribution',
+                'status' => 'published',
+                'show_on_homepage' => true,
+                'sort_order' => 1,
+                'translations' => [
+                    'hy' => [
+                        'title' => 'Էլեկտրաէներգիայի բաշխում',
+                        'summary' => 'Կառավարվող, պաշտպանված և հուսալի բաշխման լուծումներ առևտրային ու արդյունաբերական միջավայրերի համար։',
+                        'body' => 'Մենք օգնում ենք ընտրել և համակարգել էլեկտրաէներգիայի անվտանգ ու հուսալի բաշխման համար անհրաժեշտ տեխնիկական լուծումները։',
+                    ],
+                    'en' => [
+                        'title' => 'Power distribution',
+                        'summary' => 'Solutions for controlled, protected and reliable distribution across commercial and industrial environments.',
+                        'body' => 'We help select and coordinate the technical components required for safe and reliable power distribution.',
+                    ],
+                ],
+            ],
+            [
+                'slug' => 'control-automation',
+                'status' => 'published',
+                'show_on_homepage' => true,
+                'sort_order' => 2,
+                'translations' => [
+                    'hy' => [
+                        'title' => 'Կառավարում և ավտոմատացում',
+                        'summary' => 'Համակարգված մոտեցում էլեկտրական համակարգերի կառավարմանը, պաշտպանությանը և ինտեգրմանը։',
+                        'body' => 'Ծառայությունը ներառում է կառավարման, պաշտպանության և փոխկապակցված համակարգերի ինտեգրման համար անհրաժեշտ լուծումների ընտրություն։',
+                    ],
+                    'en' => [
+                        'title' => 'Control and automation',
+                        'summary' => 'A structured approach to control, protection and integration of connected electrical systems.',
+                        'body' => 'The service covers selection of solutions for control, protection and integration of connected systems.',
+                    ],
+                ],
+            ],
+            [
+                'slug' => 'monitoring-metering',
+                'status' => 'published',
+                'show_on_homepage' => true,
+                'sort_order' => 3,
+                'translations' => [
+                    'hy' => [
+                        'title' => 'Մոնիթորինգ և հաշվառում',
+                        'summary' => 'Համակարգի վիճակի և սպառման մասին հստակ տվյալներ՝ հիմնավորված որոշումների համար։',
+                        'body' => 'Մենք առաջարկում ենք մոնիթորինգի և հաշվառման կառուցվածքներ, որոնք ապահովում են համակարգի աշխատանքի տեսանելիություն։',
+                    ],
+                    'en' => [
+                        'title' => 'Monitoring and metering',
+                        'summary' => 'Clear visibility into system status and consumption for confident decisions.',
+                        'body' => 'We propose monitoring and metering structures that provide clear visibility into system operation.',
+                    ],
+                ],
+            ],
+            [
+                'slug' => 'engineering-support',
+                'status' => 'published',
+                'show_on_homepage' => true,
+                'sort_order' => 4,
+                'translations' => [
+                    'hy' => [
+                        'title' => 'Ինժեներական աջակցություն',
+                        'summary' => 'Տեխնիկական խորհրդատվություն և նախագծի պահանջներին համապատասխան սարքավորումների ընտրություն։',
+                        'body' => 'ABCN-ի թիմը աջակցում է պահանջների հստակեցման, համատեղելի ապրանքների ընտրության և հաջորդ քայլերի համակարգման ընթացքում։',
+                    ],
+                    'en' => [
+                        'title' => 'Engineering support',
+                        'summary' => 'Technical consultation and product selection aligned with project requirements.',
+                        'body' => 'The ABCN team supports requirement definition, compatible product selection and coordination of next steps.',
+                    ],
                 ],
             ],
         ];

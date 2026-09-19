@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Page;
 use App\Models\Service;
+use App\Models\TeamMember;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -48,6 +49,10 @@ class DatabaseSeeder extends Seeder
 
         foreach ($this->services() as $service) {
             Service::query()->firstOrCreate(['slug' => $service['slug']], $service);
+        }
+
+        foreach ($this->team() as $member) {
+            TeamMember::query()->firstOrCreate(['slug' => $member['slug']], $member);
         }
 
         if (app()->environment(['local', 'testing']) || filter_var(env('SEED_DEMO_CATALOG', false), FILTER_VALIDATE_BOOL)) {
@@ -174,6 +179,35 @@ class DatabaseSeeder extends Seeder
                     'lead' => 'Send a short description of your question or project. Our team will review it and contact you to clarify the next step.',
                     'body' => 'You can also contact us by phone or email.',
                 ],
+            ],
+        ];
+    }
+
+    private function team(): array
+    {
+        return [
+            [
+                'slug' => 'test-team-member',
+                'status' => 'published',
+                'show_on_homepage' => false,
+                'sort_order' => 1,
+                'translations' => [
+                    'hy' => [
+                        'title' => 'Թիմի անդամ',
+                        'summary' => 'Պաշտոն / մասնագիտացում',
+                        'body' => '',
+                    ],
+                    'en' => [
+                        'title' => 'Team member',
+                        'summary' => 'Position / specialization',
+                        'body' => '',
+                    ],
+                ],
+                'images' => [[
+                    'url' => '/images/abcn-logo.png',
+                    'name' => 'ABCN logo',
+                    'alt' => ['hy' => 'ABCN', 'en' => 'ABCN'],
+                ]],
             ],
         ];
     }

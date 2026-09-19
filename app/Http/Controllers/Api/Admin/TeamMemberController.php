@@ -14,7 +14,7 @@ class TeamMemberController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json(TeamMember::query()->orderBy('sort_order')->latest('updated_at')->get());
+        return response()->json(TeamMember::query()->orderByDesc('created_at')->orderByDesc('id')->get());
     }
 
     public function store(Request $request): JsonResponse

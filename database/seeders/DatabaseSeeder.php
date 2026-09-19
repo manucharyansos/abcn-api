@@ -18,6 +18,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Page::query()->firstOrCreate(
+            ['slug' => 'site'],
+            [
+                'status' => 'published',
+                'content' => ['hy' => [], 'en' => []],
+                'meta' => [
+                    'hy' => ['title' => 'ABCN', 'description' => ''],
+                    'en' => ['title' => 'ABCN', 'description' => ''],
+                ],
+            ],
+        );
+
         $email = env('ADMIN_EMAIL');
         $password = env('ADMIN_PASSWORD');
 

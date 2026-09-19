@@ -88,6 +88,7 @@ class ProductController extends Controller
             'sku' => ['nullable', 'string', 'max:120'],
             'status' => ['required', 'in:draft,published,archived'],
             'featured' => ['sometimes', 'boolean'],
+            'show_on_homepage' => ['sometimes', 'boolean'],
             'sort_order' => ['sometimes', 'integer', 'min:0'],
             'translations' => ['required', 'array'],
             'translations.hy.name' => ['required', 'string', 'max:220'],

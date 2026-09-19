@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\NewsArticle;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductFilterAttribute;
+use App\Models\Project;
+use App\Models\Service;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -14,6 +17,39 @@ use Illuminate\Validation\ValidationException;
 
 class PublicContentController extends Controller
 {
+    public function homepage(): JsonResponse
+    {
+        return response()->json([
+            'services' => Service::query()
+                ->where('status', 'published')
+                ->where('show_on_homepage', true)
+                ->orderBy('sort_order')
+                ->limit(6)
+                ->get(),
+            'projects' => Project::query()
+                ->where('status', 'published')
+                ->where('show_on_homepage', true)
+                ->orderBy('sort_order')
+                ->orderByDesc('completed_at')
+                ->limit(6)
+                ->get(),
+            'products' => Product::query()
+                ->where('status', 'published')
+                ->where('show_on_homepage', true)
+                ->with('category:id,slug,translations')
+                ->orderBy('sort_order')
+                ->limit(6)
+                ->get(),
+            'news' => NewsArticle::query()
+                ->where('status', 'published')
+                ->where('show_on_homepage', true)
+                ->orderByDesc('published_at')
+                ->orderBy('sort_order')
+                ->limit(6)
+                ->get(),
+        ]);
+    }
+
     public function page(string $slug): JsonResponse
     {
         return response()->json(
@@ -31,6 +67,56 @@ class PublicContentController extends Controller
             ->get();
 
         return response()->json($categories);
+    }
+
+    public function services(): JsonResponse
+    {
+        return response()->json(
+            Service::query()->where('status', 'published')->orderBy('sort_order')->get()
+        );
+    }
+
+    public function service(string $slug): JsonResponse
+    {
+        return response()->json(
+            Service::query()->where('slug', $slug)->where('status', 'published')->firstOrFail()
+        );
+    }
+
+    public function projects(): JsonResponse
+    {
+        return response()->json(
+            Project::query()
+                ->where('status', 'published')
+                ->orderBy('sort_order')
+                ->orderByDesc('completed_at')
+                ->get()
+        );
+    }
+
+    public function project(string $slug): JsonResponse
+    {
+        return response()->json(
+            Project::query()->where('slug', $slug)->where('status', 'published')->firstOrFail()
+        );
+    }
+
+    public function news(): JsonResponse
+    {
+        return response()->json(
+            NewsArticle::query()
+                ->where('status', 'published')
+                ->orderByDesc('published_at')
+                ->orderBy('sort_order')
+                ->get()
+        );
+    }
+
+    public function newsArticle(string $slug): JsonResponse
+    {
+        return response()->json(
+            NewsArticle::query()->where('slug', $slug)->where('status', 'published')->firstOrFail()
+        );
     }
 
     public function products(Request $request): JsonResponse

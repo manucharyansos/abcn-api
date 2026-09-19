@@ -4,9 +4,12 @@ use App\Http\Controllers\Api\Admin\AuthController;
 use App\Http\Controllers\Api\Admin\ContactRequestController as AdminContactRequestController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\MediaController;
+use App\Http\Controllers\Api\Admin\NewsArticleController;
 use App\Http\Controllers\Api\Admin\PageController;
 use App\Http\Controllers\Api\Admin\ProductCategoryController;
 use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\ProjectController;
+use App\Http\Controllers\Api\Admin\ServiceController;
 use App\Http\Controllers\Api\ContactRequestController;
 use App\Http\Controllers\Api\PublicContentController;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::get('/health', fn () => ['status' => 'ok', 'service' => 'ABCN API']);
 
+    Route::get('/homepage', [PublicContentController::class, 'homepage']);
     Route::get('/pages/{slug}', [PublicContentController::class, 'page']);
+    Route::get('/services', [PublicContentController::class, 'services']);
+    Route::get('/services/{slug}', [PublicContentController::class, 'service']);
+    Route::get('/projects', [PublicContentController::class, 'projects']);
+    Route::get('/projects/{slug}', [PublicContentController::class, 'project']);
+    Route::get('/news', [PublicContentController::class, 'news']);
+    Route::get('/news/{slug}', [PublicContentController::class, 'newsArticle']);
     Route::get('/product-categories', [PublicContentController::class, 'categories']);
     Route::get('/products', [PublicContentController::class, 'products']);
     Route::get('/products/compare', [PublicContentController::class, 'compare']);
@@ -35,5 +45,9 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('product-categories', ProductCategoryController::class)
             ->parameters(['product-categories' => 'productCategory']);
         Route::apiResource('products', ProductController::class);
+        Route::apiResource('services', ServiceController::class);
+        Route::apiResource('projects', ProjectController::class);
+        Route::apiResource('news', NewsArticleController::class)
+            ->parameters(['news' => 'newsArticle']);
     });
 });

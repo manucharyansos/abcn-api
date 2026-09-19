@@ -62,12 +62,16 @@ production environment.
 
 - `GET /api/v1/health`
 - `GET /api/v1/pages/{slug}`
+- `GET /api/v1/homepage`
+- `GET /api/v1/services` and `GET /api/v1/services/{slug}`
+- `GET /api/v1/projects` and `GET /api/v1/projects/{slug}`
+- `GET /api/v1/news` and `GET /api/v1/news/{slug}`
 - `GET /api/v1/product-categories`
 - `GET /api/v1/products`
 - `POST /api/v1/contact-requests`
 - `POST /api/v1/admin/login`
 - `GET /api/v1/admin/dashboard`
-- Admin CRUD endpoints for pages, categories and products
+- Admin CRUD endpoints for pages, services, projects, categories, products and news
 - Admin media endpoints for JPG, PNG, WebP and PDF uploads
 
 ## Validation

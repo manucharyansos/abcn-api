@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Admin\ProductCategoryController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\ProjectController;
 use App\Http\Controllers\Api\Admin\ServiceController;
+use App\Http\Controllers\Api\Admin\TeamMemberController;
 use App\Http\Controllers\Api\ContactRequestController;
 use App\Http\Controllers\Api\PublicContentController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/projects/{slug}', [PublicContentController::class, 'project']);
     Route::get('/news', [PublicContentController::class, 'news']);
     Route::get('/news/{slug}', [PublicContentController::class, 'newsArticle']);
+    Route::get('/team', [PublicContentController::class, 'team']);
     Route::get('/product-categories', [PublicContentController::class, 'categories']);
     Route::get('/products', [PublicContentController::class, 'products']);
     Route::get('/products/compare', [PublicContentController::class, 'compare']);
@@ -49,5 +51,6 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('projects', ProjectController::class);
         Route::apiResource('news', NewsArticleController::class)
             ->parameters(['news' => 'newsArticle']);
+        Route::apiResource('team', TeamMemberController::class);
     });
 });

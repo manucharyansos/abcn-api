@@ -51,6 +51,16 @@ class PublicContentController extends Controller
         ]);
     }
 
+    public function siteContent(): JsonResponse
+    {
+        return response()->json(
+            Page::query()
+                ->where('status', 'published')
+                ->orderBy('slug')
+                ->get(['id', 'slug', 'status', 'content', 'meta', 'updated_at'])
+        );
+    }
+
     public function page(string $slug): JsonResponse
     {
         return response()->json(

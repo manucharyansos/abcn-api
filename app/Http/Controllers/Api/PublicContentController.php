@@ -46,7 +46,6 @@ class PublicContentController extends Controller
             'news' => NewsArticle::query()
                 ->where('status', 'published')
                 ->where('show_on_homepage', true)
-                ->orderByDesc('published_at')
                 ->orderByDesc('created_at')
                 ->orderByDesc('id')
                 ->limit(6)

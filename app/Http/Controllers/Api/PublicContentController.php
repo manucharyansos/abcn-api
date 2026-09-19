@@ -10,6 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductFilterAttribute;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\TeamMember;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -116,6 +117,13 @@ class PublicContentController extends Controller
     {
         return response()->json(
             NewsArticle::query()->where('slug', $slug)->where('status', 'published')->firstOrFail()
+        );
+    }
+
+    public function team(): JsonResponse
+    {
+        return response()->json(
+            TeamMember::query()->where('status', 'published')->orderBy('sort_order')->get()
         );
     }
 

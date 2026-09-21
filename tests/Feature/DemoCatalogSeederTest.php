@@ -30,7 +30,7 @@ class DemoCatalogSeederTest extends TestCase
         $this->getJson('/api/v1/products')
             ->assertOk()
             ->assertJsonPath('total', 8)
-            ->assertJsonPath('data.0.slug', 'demo-acb-4000')
+            ->assertJsonPath('data.0.slug', 'demo-ev-wallbox-22')
             ->assertJsonPath('data.0.documents.0.url', '/documents/abcn-demo-product-sheet.pdf');
 
         $this->getJson('/api/v1/products/demo-ev-wallbox-22')
@@ -48,8 +48,8 @@ class DemoCatalogSeederTest extends TestCase
         $filtered = $this->getJson("/api/v1/products?category={$lowVoltage->id}&filters[poles]=3p-4p&locale=hy")
             ->assertOk()
             ->assertJsonPath('total', 2)
-            ->assertJsonPath('data.0.slug', 'demo-acb-4000')
-            ->assertJsonPath('data.1.slug', 'demo-mccb-250');
+            ->assertJsonPath('data.0.slug', 'demo-mccb-250')
+            ->assertJsonPath('data.1.slug', 'demo-acb-4000');
 
         $this->assertContains('poles', collect($filtered->json('facets'))->pluck('key')->all());
 

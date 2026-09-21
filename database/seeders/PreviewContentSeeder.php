@@ -273,7 +273,6 @@ class PreviewContentSeeder extends Seeder
     }
 
     private function editorial(
-    private function editorial(
         string $slug,
         string $hyTitle,
         string $enTitle,

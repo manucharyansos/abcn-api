@@ -178,9 +178,6 @@ class PreviewContentSeeder extends Seeder
     /**
      * @param array<string, string> $media
      */
-    private function projects    /**
-     * @param array<string, string> $media
-     */
     private function projects(array $media): array
     {
         $items = [
@@ -212,9 +209,6 @@ class PreviewContentSeeder extends Seeder
     /**
      * @param array<string, string> $media
      */
-    private function news    /**
-     * @param array<string, string> $media
-     */
     private function news(array $media): array
     {
         $items = [
@@ -244,9 +238,6 @@ class PreviewContentSeeder extends Seeder
     }
 
     /**
-     * @param array<string, string> $media
-     */
-    private function team    /**
      * @param array<string, string> $media
      */
     private function team(array $media): array

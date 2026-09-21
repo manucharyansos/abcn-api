@@ -20,7 +20,7 @@ class PreviewContentSeederTest extends TestCase
 
         $this->assertDatabaseCount('product_categories', 8);
         $this->assertDatabaseCount('products', 8);
-        $this->assertDatabaseCount('services', 4);
+        $this->assertDatabaseCount('services', 6);
         $this->assertDatabaseCount('projects', 6);
         $this->assertDatabaseCount('news_articles', 6);
         $this->assertDatabaseCount('team_members', 4);
@@ -33,7 +33,7 @@ class PreviewContentSeederTest extends TestCase
 
         $this->getJson('/api/v1/services')
             ->assertOk()
-            ->assertJsonCount(4)
+            ->assertJsonCount(6)
             ->assertJsonPath('0.slug', 'preview-commissioning');
 
         $this->getJson('/api/v1/projects')

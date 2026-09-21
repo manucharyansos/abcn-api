@@ -114,43 +114,63 @@ class PreviewContentSeeder extends Seeder
         return [
             $this->editorial(
                 'preview-electrical-design',
-                'Էլեկտրական նախագծում',
-                'Electrical design',
-                'Նախագծային լուծումներ՝ բեռների հաշվարկից և սխեմաներից մինչև սարքավորումների տեխնիկական ընտրություն։',
-                'Engineering design from load calculations and diagrams to technical equipment selection.',
+                'Էլեկտրական նախագծում և հաշվարկներ',
+                'Electrical design & calculations',
+                'Բեռների հաշվարկ, միագիծ սխեմաներ, մալուխների և պաշտպանիչ սարքերի ընտրություն՝ նախագծի պահանջներին համապատասխան։',
+                'Load calculations, single-line diagrams, cable sizing and protection-device selection aligned with project requirements.',
                 101,
-                $media['service-design'],
-                'Electrical design preview'
+                '/images/abcn-hero.webp',
+                'Էլեկտրական նախագծում'
             ),
             $this->editorial(
                 'preview-panel-integration',
-                'Վահանակների հավաքում և ինտեգրում',
-                'Panel assembly & integration',
-                'Բաշխիչ և կառավարման վահանակների կառուցվածք, սարքավորումների ընտրություն և համակարգային ինտեգրում։',
-                'Distribution and control panel structure, equipment selection and system integration.',
+                'Էլեկտրական վահանակների լուծումներ',
+                'Electrical panel solutions',
+                'Գլխավոր և վերջնական բաշխիչ վահանակների, կառավարման վահանակների և դրանց բաղադրիչների տեխնիկական ընտրություն ու համակարգում։',
+                'Technical selection and coordination of main and final distribution panels, control panels and their components.',
                 102,
-                $media['service-panels'],
-                'Panel integration preview'
+                '/images/products/demo-low-voltage.webp',
+                'Էլեկտրական վահանակների լուծումներ'
             ),
             $this->editorial(
-                'preview-site-audit',
-                'Տեխնիկական աուդիտ և տեղազննում',
-                'Technical audit & site survey',
-                'Օբյեկտի տեխնիկական ուսումնասիրություն՝ առկա վիճակը, սահմանափակումներն ու հաջորդ ինժեներական քայլերը հստակեցնելու համար։',
-                'Technical site review to clarify existing conditions, constraints and the next engineering steps.',
+                'preview-automation-control',
+                'Ավտոմատացում և կառավարում',
+                'Automation & control',
+                'Կառավարման, պաշտպանության և ավտոմատացման սարքերի ընտրություն՝ արտադրական ու ինժեներական համակարգերի համար։',
+                'Selection of control, protection and automation equipment for industrial and engineering systems.',
                 103,
-                $media['service-audit'],
-                'Technical audit preview'
+                '/images/products/demo-low-voltage.webp',
+                'Ավտոմատացում և կառավարում'
+            ),
+            $this->editorial(
+                'preview-metering-monitoring',
+                'Էներգիայի հաշվառում և մոնիթորինգ',
+                'Energy metering & monitoring',
+                'Սպառման, բեռների և համակարգի աշխատանքի տվյալների հավաքագրում՝ հաշվիչների և մոնիթորինգի լուծումների միջոցով։',
+                'Collection of consumption, load and system-performance data using metering and monitoring solutions.',
+                104,
+                '/images/products/demo-smart-meter.webp',
+                'Էներգիայի հաշվառում և մոնիթորինգ'
+            ),
+            $this->editorial(
+                'preview-equipment-selection',
+                'Տեխնիկական խորհրդատվություն և սարքավորումների ընտրություն',
+                'Technical consulting & equipment selection',
+                'Տեխնիկական պահանջների հստակեցում, համատեղելի սարքավորումների ընտրություն և առաջարկվող լուծման փաստաթղթավորում։',
+                'Clarification of technical requirements, selection of compatible equipment and documentation of the proposed solution.',
+                105,
+                '/images/products/demo-low-voltage.webp',
+                'Տեխնիկական խորհրդատվություն'
             ),
             $this->editorial(
                 'preview-commissioning',
-                'Գործարկում և համակարգերի ստուգում',
-                'Commissioning & system verification',
-                'Փորձնական ծառայություն՝ գործարկման, ստուգումների և վերջնական տեխնիկական հանձնման քարտի տեսքը ստուգելու համար։',
-                'Preview service for commissioning, verification and final technical handover.',
-                104,
-                $media['project-automation'],
-                'Commissioning preview'
+                'Գործարկում և տեխնիկական ստուգում',
+                'Commissioning & technical verification',
+                'Հավաքված համակարգերի և վահանակների գործարկման նախապատրաստում, հիմնական ստուգումներ և տեխնիկական հանձնման աջակցություն։',
+                'Commissioning preparation, essential verification and technical handover support for assembled systems and panels.',
+                106,
+                '/images/abcn-hero.webp',
+                'Գործարկում և տեխնիկական ստուգում'
             ),
         ];
     }
@@ -158,18 +178,21 @@ class PreviewContentSeeder extends Seeder
     /**
      * @param array<string, string> $media
      */
+    private function projects    /**
+     * @param array<string, string> $media
+     */
     private function projects(array $media): array
     {
         $items = [
-            ['preview-project-01', 'Արտադրական գծի էլեկտրամատակարարում', 'Industrial line power distribution', 'Արտադրական գծի համար բաշխման, պաշտպանության և տեխնիկական համակարգման փորձնական նախագիծ։', 'Preview project for distribution, protection and technical coordination of an industrial line.', 'project-industrial'],
-            ['preview-project-02', 'Գրասենյակային շենքի վահանակներ', 'Office building distribution panels', 'Բազմահարկ գրասենյակային շենքի բաշխիչ վահանակների և սնուցման կառուցվածքի փորձնական նախագիծ։', 'Preview project for distribution panels and power architecture in a multi-storey office building.', 'project-building'],
-            ['preview-project-03', 'Էներգիայի հաշվառման համակարգ', 'Energy metering system', 'Հաշվառման, տվյալների հավաքագրման և մոնիթորինգի փորձնական համակարգ։', 'Preview project for metering, data collection and monitoring.', 'project-metering'],
-            ['preview-project-04', 'EV լիցքավորման ենթակառուցվածք', 'EV charging infrastructure', 'Լիցքավորման կայանների, պաշտպանության սարքավորումների և սնուցման փորձնական լուծում։', 'Preview solution for EV chargers, protection equipment and power supply.', 'project-ev'],
-            ['preview-project-05', 'Ավտոմատացման վահանակ', 'Automation control panel', 'Կառավարման, ազդանշանների և ավտոմատացման սարքավորումների ինտեգրման փորձնական նախագիծ։', 'Preview project for control, signaling and automation equipment integration.', 'project-automation'],
-            ['preview-project-06', 'Առևտրային տարածքի էներգաբաշխում', 'Retail facility power distribution', 'Առևտրային տարածքի հիմնական և վերջնական էներգաբաշխման փորձնական նախագիծ։', 'Preview project for main and final power distribution in a retail facility.', 'project-retail'],
+            ['preview-project-01', 'Արտադրական օբյեկտի գլխավոր էներգաբաշխում', 'Main power distribution for an industrial facility', 'Գլխավոր մուտքից մինչև բաշխիչ վահանակներ՝ բեռների բաժանում, պաշտպանություն և համակարգի կառուցվածքի ընտրություն։', 'From the main incomer to distribution panels: load allocation, protection and system architecture.', '/images/abcn-hero.webp'],
+            ['preview-project-02', 'Բիզնես կենտրոնի էլեկտրական ենթակառուցվածք', 'Electrical infrastructure for a business center', 'Գլխավոր և հարկային վահանակների, մալուխային գծերի ու պաշտպանիչ սարքերի համակցված լուծում։', 'Integrated solution for main and floor panels, cable routes and protective devices.', '/images/products/demo-low-voltage.webp'],
+            ['preview-project-03', 'Էներգիայի հաշվառման և մոնիթորինգի համակարգ', 'Energy metering and monitoring system', 'Եռաֆազ հաշվիչներ, տվյալների հավաքագրում և սպառման վերահսկման կառուցվածք՝ մեկ միասնական համակարգում։', 'Three-phase meters, data collection and consumption monitoring within one integrated system.', '/images/products/demo-smart-meter.webp'],
+            ['preview-project-04', 'EV լիցքավորման կայանների լուծում', 'EV charging station solution', 'Լիցքավորման կետերի հզորության ընտրություն, պաշտպանություն, բեռների բաշխում և կայանների միացման սխեմա։', 'Charger power selection, protection, load distribution and connection architecture.', '/images/products/demo-ev-charger.webp'],
+            ['preview-project-05', 'Ավտոմատացման կառավարման վահանակ', 'Automation control panel', 'Կոնտակտորների, պաշտպանիչ սարքերի և կառավարման բաղադրիչների համադրում մեկ կառավարման վահանակում։', 'Integration of contactors, protection and control components in a single automation panel.', '/images/products/demo-low-voltage.webp'],
+            ['preview-project-06', 'Առևտրային տարածքի վերջնական էներգաբաշխում', 'Final power distribution for a retail facility', 'Լուսավորության, վարդակային խմբերի և սարքավորումների սնուցման վերջնական բաշխման կառուցվածք։', 'Final distribution architecture for lighting, socket circuits and equipment power supply.', '/images/products/demo-low-voltage.webp'],
         ];
 
-        return array_map(function ($item, $index) use ($media) {
+        return array_map(function ($item, $index) {
             return [
                 ...$this->editorial(
                     $item[0],
@@ -178,10 +201,10 @@ class PreviewContentSeeder extends Seeder
                     $item[3],
                     $item[4],
                     200 + $index,
-                    $media[$item[5]],
-                    'ABCN preview project'
+                    $item[5],
+                    'ABCN engineering project'
                 ),
-                'completed_at' => now()->subDays($index + 2)->toDateString(),
+                'completed_at' => now()->subDays(30 + ($index * 18))->toDateString(),
             ];
         }, $items, array_keys($items));
     }
@@ -189,18 +212,21 @@ class PreviewContentSeeder extends Seeder
     /**
      * @param array<string, string> $media
      */
+    private function news    /**
+     * @param array<string, string> $media
+     */
     private function news(array $media): array
     {
         $items = [
-            ['preview-news-01', 'ABCN-ի ինժեներական ուղղությունների թարմացում', 'ABCN engineering directions update', 'Փորձնական նորություն՝ ծառայությունների և տեխնիկական ուղղությունների զարգացման մասին։', 'Preview news item about the development of engineering services and technical directions.', 'news-engineering'],
-            ['preview-news-02', 'Նոր տեխնիկական գործընկերության օրինակ', 'New technical partnership example', 'Փորձնական հրապարակում՝ գործընկերային նորությունների քարտի և մանրամասն էջի տեսքը ստուգելու համար։', 'Preview article for testing a partnership news card and detail page.', 'news-partnership'],
-            ['preview-news-03', 'Ապրանքային կատալոգի թարմացում', 'Product catalog update', 'Փորձնական նորություն նոր կատեգորիաների, ապրանքների և տեխնիկական տվյալների ավելացման մասին։', 'Preview news item about new catalog categories, products and technical data.', 'news-catalog'],
-            ['preview-news-04', 'Էներգախնայողության լուծումների թարմացում', 'Energy efficiency solutions update', 'Ավելի երկար փորձնական տեքստ՝ բջջային էջում տողադարձը և քարտերի հավասարեցումը ստուգելու համար։', 'Longer preview text for checking wrapping and card alignment on mobile screens.', 'project-metering'],
-            ['preview-news-05', 'EV ենթակառուցվածքի նոր ուղղություն', 'EV infrastructure direction update', 'Փորձնական հրապարակում էլեկտրամոբիլների լիցքավորման տեխնիկական լուծումների մասին։', 'Preview article about technical solutions for EV charging infrastructure.', 'project-ev'],
-            ['preview-news-06', 'ABCN թիմի թարմացում', 'ABCN team update', 'Փորձնական հրապարակում՝ թիմային և կորպորատիվ նորությունների բաժնի տեսքը ստուգելու համար։', 'Preview article for checking team and corporate news presentation.', 'news-team'],
+            ['preview-news-01', 'Ինչ հաշվի առնել գլխավոր բաշխիչ վահանակ ընտրելիս', 'What to consider when selecting a main distribution panel', 'Հզորությունը միայն մեկնարկային կետն է․ կարևոր են նաև կարճ միացման մակարդակը, սելեկտիվությունը, պահուստը և սպասարկման պայմանները։', 'Power rating is only the starting point; short-circuit level, selectivity, reserve capacity and maintenance conditions also matter.', '/images/products/demo-low-voltage.webp'],
+            ['preview-news-02', 'Էլեկտրաէներգիայի հաշվառում․ ինչ տվյալներ են իրականում կարևոր', 'Energy metering: which data actually matters', 'Ակտիվ էներգիայից բացի համակարգերը կարող են տալ բեռի, լարման, հոսանքի և աշխատանքի պատմության օգտակար տվյալներ։', 'Beyond active energy, modern systems can provide useful load, voltage, current and operating-history data.', '/images/products/demo-smart-meter.webp'],
+            ['preview-news-03', 'EV լիցքավորման կայան՝ 7.4, 11 թե 22 kW', 'EV charging: 7.4, 11 or 22 kW', 'Հզորության ընտրությունը կախված է ցանցի հնարավորությունից, մեքենայի onboard charger-ից և օգտագործման սցենարից։', 'Power selection depends on grid capacity, the vehicle onboard charger and the expected usage scenario.', '/images/products/demo-ev-charger-angle.webp'],
+            ['preview-news-04', 'Ավտոմատ անջատիչների ընտրության հիմնական չափանիշները', 'Key criteria for circuit-breaker selection', 'Նոմինալ հոսանքը բավարար չէ․ պետք է գնահատել նաև անջատման ունակությունը, բնութագիրը և համակարգի սելեկտիվությունը։', 'Rated current is not enough; breaking capacity, trip characteristics and system selectivity must also be evaluated.', '/images/products/demo-low-voltage.webp'],
+            ['preview-news-05', 'Արդյունաբերական ավտոմատացում․ որտեղից սկսել', 'Industrial automation: where to start', 'Լավ ավտոմատացումը սկսվում է գործընթացի, ազդանշանների, անվտանգության պահանջների և սպասվող արդյունքի հստակ նկարագրությունից։', 'Good automation starts with a clear description of the process, signals, safety requirements and expected result.', '/images/abcn-hero.webp'],
+            ['preview-news-06', 'Տեխնիկական փաստաթղթերի դերը սարքավորումների ընտրության մեջ', 'The role of technical documentation in equipment selection', 'Datasheet-ը, սխեմաներն ու սերտիֆիկատները օգնում են համեմատել սարքավորումները ոչ թե միայն գնով, այլ կիրառելիությամբ և ռիսկով։', 'Datasheets, diagrams and certificates help compare equipment by application and risk, not only by price.', '/images/products/demo-ev-charger-detail.webp'],
         ];
 
-        return array_map(function ($item, $index) use ($media) {
+        return array_map(function ($item, $index) {
             return [
                 ...$this->editorial(
                     $item[0],
@@ -209,10 +235,10 @@ class PreviewContentSeeder extends Seeder
                     $item[3],
                     $item[4],
                     300 + $index,
-                    $media[$item[5]],
-                    'ABCN preview news'
+                    $item[5],
+                    'ABCN technical article'
                 ),
-                'published_at' => now()->subHours($index + 1),
+                'published_at' => now()->subDays(7 + ($index * 9)),
             ];
         }, $items, array_keys($items));
     }
@@ -220,13 +246,16 @@ class PreviewContentSeeder extends Seeder
     /**
      * @param array<string, string> $media
      */
+    private function team    /**
+     * @param array<string, string> $media
+     */
     private function team(array $media): array
     {
         $items = [
-            ['preview-team-01', 'Թիմի անդամ 1', 'Team member 1', 'Տեխնիկական ղեկավար', 'Technical lead', 'team-01'],
-            ['preview-team-02', 'Թիմի անդամ 2', 'Team member 2', 'Նախագծերի ղեկավար', 'Project manager', 'team-02'],
-            ['preview-team-03', 'Թիմի անդամ 3', 'Team member 3', 'Էլեկտրատեխնիկայի ինժեներ', 'Electrical engineer', 'team-03'],
-            ['preview-team-04', 'Թիմի անդամ երկար անունով', 'Team member with a longer name', 'Տեխնիկական վաճառքի և լուծումների մասնագետ', 'Technical sales & solutions specialist', 'team-04'],
+            ['preview-team-01', 'ABCN տեխնիկական թիմ', 'ABCN Engineering Team', 'Նախագծում և տեխնիկական լուծումներ', 'Engineering design & technical solutions'],
+            ['preview-team-02', 'Նախագծերի համակարգում', 'Project Coordination', 'Պահանջների, ժամկետների և տեխնիկական փուլերի համակարգում', 'Coordination of requirements, timelines and technical stages'],
+            ['preview-team-03', 'Տեխնիկական վաճառք', 'Technical Sales', 'Սարքավորումների ընտրություն և կոմերցիոն առաջարկներ', 'Equipment selection & commercial proposals'],
+            ['preview-team-04', 'Հաճախորդների աջակցություն', 'Customer Support', 'Հարցումների ընդունում և հաջորդ քայլերի կազմակերպում', 'Inquiry handling & next-step coordination'],
         ];
 
         return array_map(fn ($item, $index) => [
@@ -238,20 +267,21 @@ class PreviewContentSeeder extends Seeder
                 'hy' => ['title' => $item[1], 'summary' => $item[3], 'body' => ''],
                 'en' => ['title' => $item[2], 'summary' => $item[4], 'body' => ''],
             ],
-            'images' => $this->image($media[$item[5]], 'ABCN preview team member'),
+            'images' => $this->image('/images/abcn-logo.png', 'ABCN'),
         ], $items, array_keys($items));
     }
 
     private function inquiries(): array
     {
         return [
-            $this->inquiry('Արամ Մկրտչյան', 'Demo Electric', 'preview1@example.com', 'Խնդրում եմ առաջարկ ուղարկել ավտոմատ անջատիչների համար։', 'new'),
-            $this->inquiry('Անի Սարգսյան', 'Demo Systems', 'preview2@example.com', 'Հետաքրքրված ենք էներգիայի հաշվառման համակարգով։', 'in_progress'),
-            $this->inquiry('Դավիթ Գրիգորյան', 'Demo Project', 'preview3@example.com', 'Պետք է տեխնիկական խորհրդատվություն նոր նախագծի համար։', 'new'),
-            $this->inquiry('Մարի Հովհաննիսյան', 'Demo Build', 'preview4@example.com', 'Կցանկանայինք քննարկել էլեկտրական վահանակների լուծումը։', 'completed'),
+            $this->inquiry('Արամ Մկրտչյան', 'Armat Engineering', 'demo+panel@example.com', 'Պետք է առաջարկ 1600A գլխավոր բաշխիչ վահանակի համար։ Կարո՞ղ եք նաև առաջարկել պաշտպանիչ սարքերը։', 'new'),
+            $this->inquiry('Անի Սարգսյան', 'North Business Center', 'demo+metering@example.com', 'Հետաքրքրված ենք բազմակետ էներգիայի հաշվառման և Modbus մոնիթորինգի լուծմամբ։', 'in_progress'),
+            $this->inquiry('Դավիթ Գրիգորյան', 'ProLine Systems', 'demo+automation@example.com', 'Նոր արտադրական գծի համար պետք է կառավարման վահանակի տեխնիկական ընտրություն և առաջարկ։', 'new'),
+            $this->inquiry('Մարի Հովհաննիսյան', 'Urban Retail', 'demo+distribution@example.com', 'Պետք է վերջնական էներգաբաշխման սարքավորումների ընտրություն առևտրային տարածքի համար։', 'completed'),
         ];
     }
 
+    private function editorial(
     private function editorial(
         string $slug,
         string $hyTitle,
@@ -271,12 +301,12 @@ class PreviewContentSeeder extends Seeder
                 'hy' => [
                     'title' => $hyTitle,
                     'summary' => $hySummary,
-                    'body' => $hySummary."\n\nՍա փորձնական բովանդակություն է՝ էջի կառուցվածքը և դիզայնը ստուգելու համար։ Հետագայում այն կարող եք խմբագրել կամ ջնջել ադմինից։",
+                    'body' => $hySummary."\n\nՆմուշային բովանդակություն․ այս նկարագրությունը ստեղծված է կայքի տեսքը ստուգելու համար և չի ներկայացնում կոնկրետ ավարտված հաճախորդի նախագիծ։",
                 ],
                 'en' => [
                     'title' => $enTitle,
                     'summary' => $enSummary,
-                    'body' => $enSummary."\n\nThis is preview content for checking the page structure and design. It can later be edited or removed from the admin panel.",
+                    'body' => $enSummary."\n\nSample content: this description is provided to preview the website and does not represent a specific completed client project.",
                 ],
             ],
             'images' => $this->image($imageUrl, $imageName),

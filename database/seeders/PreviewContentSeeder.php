@@ -70,10 +70,10 @@ class PreviewContentSeeder extends Seeder
             'news-partnership' => ['news-partnership.svg', 'Partnership update', 'partnership'],
             'news-catalog' => ['news-catalog.svg', 'Catalog update', 'catalog'],
             'news-team' => ['news-team.svg', 'ABCN team update', 'team'],
-            'team-01' => ['team-01.svg', 'Preview team member portrait 1', 'portrait-1'],
-            'team-02' => ['team-02.svg', 'Preview team member portrait 2', 'portrait-2'],
-            'team-03' => ['team-03.svg', 'Preview team member portrait 3', 'portrait-3'],
-            'team-04' => ['team-04.svg', 'Preview team member portrait 4', 'portrait-4'],
+            'team-01' => ['team-01.svg', 'ABCN engineering team', 'portrait-1'],
+            'team-02' => ['team-02.svg', 'Project coordination', 'portrait-2'],
+            'team-03' => ['team-03.svg', 'Technical sales', 'portrait-3'],
+            'team-04' => ['team-04.svg', 'Customer support', 'portrait-4'],
         ];
 
         $urls = [];
@@ -292,12 +292,12 @@ class PreviewContentSeeder extends Seeder
                 'hy' => [
                     'title' => $hyTitle,
                     'summary' => $hySummary,
-                    'body' => $hySummary."\n\nՆմուշային բովանդակություն․ այս նկարագրությունը ստեղծված է կայքի տեսքը ստուգելու համար և չի ներկայացնում կոնկրետ ավարտված հաճախորդի նախագիծ։",
+                    'body' => $hySummary."\n\nՆմուշային կայքային բովանդակություն՝ մինչ իրական ընկերության նյութերի հրապարակումը։",
                 ],
                 'en' => [
                     'title' => $enTitle,
                     'summary' => $enSummary,
-                    'body' => $enSummary."\n\nSample content: this description is provided to preview the website and does not represent a specific completed client project.",
+                    'body' => $enSummary."\n\nSample website content used until the final company materials are published.",
                 ],
             ],
             'images' => $this->image($imageUrl, $imageName),
